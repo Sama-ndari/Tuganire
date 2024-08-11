@@ -1,0 +1,84 @@
+{% include "header.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{post.img_url}}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+              {% if not edit%}
+                <h1>{{post.title}}</h1>
+                <h2 class="subheading">{{post.subtitle}}</h2>
+                <span class="meta">Posted by
+                  <a href="#">{{post.author.name}}</a>
+                  on {{post.date}}</span>
+              {% else %}
+                <h1>Update Comment</h1>
+              {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+        {% if not edit%}
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    {{ post.body|safe }}
+                    <hr>
+                    <!--           If user id is 1 then they can see the Edit Post button -->
+                  {% if current_user.id == 1 or current_user == post.author %}
+                   <div class="clearfix">
+                      <a class="btn btn-primary float-right" href="{{url_for('edit_post', post_id=post.id)}}">Edit Post</a>
+                   </div>
+                  {% endif %}
+                </div>
+            </div>
+
+
+            <!--           Comments Area -->
+            <div class="col-lg-12 col-md-10">
+                <ul class="commentLi">
+                    {% for comment in post.comments: %}
+                        <li style="list-style-type: none;">
+                                <div class="commenterImage">
+                                    {% set email = comment.comment_author.email %}
+                                    {% set default_images = ['identicon', 'monsterid', 'wavatar'] %}
+                                    {% set default_image = default_images[range(default_images|length)|random] %}
+                                    {% set size = 200 %}
+                                    {% set email_hash = email|lower|md5 %}
+                                    {% set gravatar_url = 'https://www.gravatar.com/avatar/' + email_hash + '?d=' + default_image + '&s=' + size|string %}
+                                    <img src="{{ gravatar_url }}" alt="Avatar">
+                                </div>
+                                <div class="commentText">
+                                    {{comment.text|safe}}
+                                    <span class="date sub-text">{{comment.comment_author.name}}</span>
+                                </div>
+                                {% if current_user.id == 1 or current_user == comment.comment_author: %}
+                                  <a href="{{url_for('delete_comment', comment_id=comment.id) }}">✘</a>
+                                {% endif %}
+                                {% if current_user.id == 1 or current_user == comment.comment_author: %}
+                                  <a href="{{url_for('edit_comment', comment_id=comment.id) }}">✍</a>
+                                {% endif %}
+                            <hr>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+
+        {% endif %}
+
+            {{ ckeditor.load() }}
+            {{ ckeditor.config(name='comment-text') }}
+            {{wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"})}}
+    </div>
+  </article>
+
+  <hr>
+{% include "footer.html" %}
