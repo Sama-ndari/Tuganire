@@ -15,9 +15,8 @@ import os
 # from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
-# app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 # socketio = SocketIO(app)
 ckeditor = CKEditor(app)
 Bootstrap(app)
