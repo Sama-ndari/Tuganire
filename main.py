@@ -145,7 +145,7 @@ def md5_filter(value):
 #     print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 #     emit('comment_added', comment_data, broadcast=True)
 #
-#
+#app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 # def get_gravatar_url(email):
 #     email_hash = hashlib.md5(email.encode('utf-8')).hexdigest()
 #     size = 200
