@@ -17,7 +17,7 @@ import os
 app = Flask(__name__)
 # app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
-
+app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 # socketio = SocketIO(app)
 ckeditor = CKEditor(app)
 Bootstrap(app)
@@ -152,7 +152,7 @@ def md5_filter(value):
 #     size = 200
 #     default_image = 'identicon'
 #     return f'https://www.gravatar.com/avatar/{email_hash}?d={default_image}&s={size}'
-# app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+
 
 @app.route('/')
 def get_all_posts():
